@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Models\Companies\Exceptions\" />
+    <Folder Include="Models\Contacts\Exceptions\" />
+    <Folder Include="Models\Customers\Exceptions\" />
+    <Folder Include="Models\Employes\Exceptions\" />
+    <Folder Include="Models\OrderProducts\Exceptions\" />
+    <Folder Include="Models\Orders\Exceptions\" />
+    <Folder Include="Models\ProductSuppliers\Exceptions\" />
+    <Folder Include="Models\Products\Exceptions\" />
+    <Folder Include="Models\SupplierContacts\Exception\" />
+    <Folder Include="Models\Suppliers\Exception\" />
+    <Folder Include="Models\Transactions\Exceptions\" />
+    <Folder Include="Models\WarehouseInventories\Exceptions\" />
+    <Folder Include="Models\Warehouses\Exceptions\" />
+  </ItemGroup>
+
+</Project>
