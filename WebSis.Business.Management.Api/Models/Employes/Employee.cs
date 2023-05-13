@@ -1,4 +1,5 @@
-﻿using WebSis.Business.Managmant.Api.Models.Warehouses;
+﻿using WebSis.Business.Management.Api.Models.User;
+using WebSis.Business.Managmant.Api.Models.Warehouses;
 
 namespace WebSis.Business.Managmant.Api.Models.Employes
 {
@@ -6,6 +7,8 @@ namespace WebSis.Business.Managmant.Api.Models.Employes
     {
         public Guid EmployeeID { get; set; }
         public Guid WarehouseID { get; set; }
+        public Guid UserID { get; set; }
+        public User User { get; set; }
         public Warehouse Warehouse { get; set; }
         public string IdentityId { get; set; }
         public string FirstName { get; set; }

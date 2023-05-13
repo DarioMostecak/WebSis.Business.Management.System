@@ -3,10 +3,16 @@
 
 namespace WebSis.Buisness.Management.Warehause.Web.App.Views.Bases
 {
-    public partial class InputBase : ComponentBase
+    public partial class TextBoxBase : ComponentBase
     {
         [Parameter]
         public string Value { get; set; }
+
+        [Parameter]
+        public string Label { get; set; }
+
+        [Parameter]
+        public string ValidationErrorMessage { get; set; }
 
         [Parameter]
         public string Placeholder { get; set; }
@@ -16,6 +22,9 @@ namespace WebSis.Buisness.Management.Warehause.Web.App.Views.Bases
 
         [Parameter]
         public string Style { get; set; }
+
+        [Parameter]
+        public List<(Func<string, bool>, string)> Validators { get; set; }
 
         [Parameter]
         public EventCallback<string> ValueChanged { get; set; }
@@ -31,11 +40,31 @@ namespace WebSis.Buisness.Management.Warehause.Web.App.Views.Bases
             await ValueChanged.InvokeAsync(this.Value);
         }
 
+        public void SetValidationErrorMessage(string message) =>
+            this.ValidationErrorMessage = message;
+
+        public void ClearErrorValidationMessage() =>
+            this.ValidationErrorMessage = string.Empty;
+
         private Task OnValueChanged(ChangeEventArgs changeEventArgs)
         {
             this.Value = changeEventArgs.Value.ToString();
+            Validation(Validators);
 
             return ValueChanged.InvokeAsync(this.Value);
+        }
+
+        private void Validation(List<(Func<string, bool> condition, string message)> Validators)
+        {
+            foreach ((Func<string, bool> validator, string message) in Validators)
+            {
+                if (validator(this.Value))
+                {
+                    SetValidationErrorMessage(message);
+                    return;
+                }
+            }
+            ClearErrorValidationMessage();
         }
 
         public void Disable()
@@ -51,3 +80,4 @@ namespace WebSis.Buisness.Management.Warehause.Web.App.Views.Bases
         }
     }
 }
+

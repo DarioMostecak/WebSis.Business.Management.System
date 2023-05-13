@@ -1,0 +1,14 @@
+﻿<label>
+    @Label
+</label>
+
+<input placeholder="@Placeholder"
+       type="@Type"
+       style="@Style"
+       disabled="@IsDisabled"
+       @bind-value="@Value"
+       @oninput="@OnValueChanged" />
+
+<span>
+    @ValidationErrorMessage
+</span>

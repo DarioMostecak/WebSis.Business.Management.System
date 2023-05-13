@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Brokers\Loggers\" />
+    <Folder Include="Brokers\DateTimes\" />
+    <Folder Include="Brokers\UserManagers\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\Companies\Exceptions\" />
     <Folder Include="Models\Contacts\Exceptions\" />
@@ -19,8 +22,19 @@
     <Folder Include="Models\SupplierContacts\Exception\" />
     <Folder Include="Models\Suppliers\Exception\" />
     <Folder Include="Models\Transactions\Exceptions\" />
+    <Folder Include="Models\Users\Exceptions\" />
     <Folder Include="Models\WarehouseInventories\Exceptions\" />
     <Folder Include="Models\Warehouses\Exceptions\" />
+    <Folder Include="Registars\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>
