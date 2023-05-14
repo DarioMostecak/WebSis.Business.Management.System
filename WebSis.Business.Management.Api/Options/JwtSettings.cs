@@ -4,9 +4,13 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-namespace WebSis.Business.Management.Api.Brokers.Storages
+namespace WebSis.Business.Management.Api.Options
 {
-    public partial interface IStorageBroker
+    public class JwtSettings
     {
+        public string SigningKey { get; set; }
+        public string Issuer { get; set; }
+        public string[] Audiences { get; set; }
+
     }
 }

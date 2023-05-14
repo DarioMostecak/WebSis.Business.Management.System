@@ -4,9 +4,10 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-namespace WebSis.Business.Management.Api.Brokers.Storages
+namespace WebSis.Business.Management.Api.Registrars
 {
-    public partial interface IStorageBroker
+    public interface IWebApplicationBuilderRegistrar : IRegistrar
     {
+        void RegisterServices(WebApplicationBuilder builder);
     }
 }
