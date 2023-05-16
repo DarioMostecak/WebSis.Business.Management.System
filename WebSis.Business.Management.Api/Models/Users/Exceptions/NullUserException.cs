@@ -4,9 +4,14 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-namespace WebSis.Business.Management.Api.Services.Foundations.Users
+using WebSis.Business.Management.Api.Models.ExceptionsModels;
+
+namespace WebSis.Business.Management.Api.Models.Users.Exceptions
 {
-    public partial class UserService
+    public class NullUserException : ExceptionModel
     {
+        public NullUserException()
+            : base(message: "User is null.")
+        { }
     }
 }

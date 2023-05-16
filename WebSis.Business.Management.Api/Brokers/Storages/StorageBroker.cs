@@ -7,6 +7,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebSis.Business.Management.Api.Models.Users;
+using WebSis.Business.Management.Api.Utilities;
 
 namespace WebSis.Business.Management.Api.Brokers.Storages
 {
@@ -33,6 +34,21 @@ namespace WebSis.Business.Management.Api.Brokers.Storages
             optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             string connectionString = this.configuration.GetConnectionString("DefaultConnection");
             optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                return base.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                ExceptionEf.ThrowMeaningfulException(dbUpdateException);
+
+                throw;
+            }
+
         }
     }
 }

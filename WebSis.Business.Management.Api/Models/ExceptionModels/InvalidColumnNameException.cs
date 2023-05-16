@@ -4,9 +4,11 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
-namespace WebSis.Business.Management.Api.Services.Foundations.Users
+namespace WebSis.Business.Management.Api.Models.ExceptionModels
 {
-    public partial class UserService
+    public class InvalidColumnNameException : Exception
     {
+        public InvalidColumnNameException(string message) : base(message)
+        { }
     }
 }

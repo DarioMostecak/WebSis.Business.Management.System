@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Brokers\Loggers\" />
     <Folder Include="Brokers\DateTimes\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\Companies\Exceptions\" />
@@ -21,12 +20,12 @@
     <Folder Include="Models\SupplierContacts\Exception\" />
     <Folder Include="Models\Suppliers\Exception\" />
     <Folder Include="Models\Transactions\Exceptions\" />
-    <Folder Include="Models\Users\Exceptions\" />
     <Folder Include="Models\WarehouseInventories\Exceptions\" />
     <Folder Include="Models\Warehouses\Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.16" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />

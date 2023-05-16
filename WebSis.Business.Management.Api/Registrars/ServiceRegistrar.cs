@@ -4,6 +4,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using WebSis.Business.Management.Api.Brokers.Loggers;
 using WebSis.Business.Management.Api.Brokers.Storages;
 using WebSis.Business.Management.Api.Brokers.UserManagers;
 using WebSis.Business.Management.Api.Options;
@@ -24,6 +25,7 @@ namespace WebSis.Business.Management.Api.Registrars
 
             #region Brokers
             builder.Services.AddTransient<IUserManagerBroker, UserManagerBroker>();
+            builder.Services.AddTransient<ILoggingBroker, LoggingBroker>();
             #endregion
         }
     }
