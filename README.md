@@ -34,6 +34,35 @@ Access controls for each endpoint is in api endpoints documentation we ensure th
   GET /api/v1/users?id
 ```
 
+#### Authentication
+Requires an Authorization header with a bearer token (JWT) and user must have Admin role.
+
+#### Parameters
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `userId` | `guid` | **Required.** Id of user |
+
+#### response
+```json
+{
+  "token":"jwt token"
+}
+```
+
+#### Errors
+- UserValidationException - 
+- UserDependencyValidationException -
+- UserDependencyException -
+- UserServiceException -
+
+#### Error response
+```json
+{
+  "status": error code,
+  "type": rfc url,
+  "title": message from exception,
+  "errors": {
+    "detail": error detials
+}
+
+```
