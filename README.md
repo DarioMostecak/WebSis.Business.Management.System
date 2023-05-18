@@ -62,7 +62,7 @@ Requires an Authorization header with a bearer token (JWT) and user must have Ad
   "type": "rfc url",
   "title": "message from exception",
   "errors": {
-    "detail": "error detials"
+    "detail": "error detailes"
 }
 
 ```
