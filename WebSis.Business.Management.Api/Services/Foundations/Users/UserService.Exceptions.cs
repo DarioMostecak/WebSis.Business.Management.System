@@ -5,6 +5,8 @@
 // ---------------------------------------------------------------
 
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using WebSis.Business.Management.Api.Models.ExceptionModels;
 using WebSis.Business.Management.Api.Models.Users;
 using WebSis.Business.Management.Api.Models.Users.Exceptions;
 
@@ -49,12 +51,34 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
 
                 throw CreateAndLogCriticalDependencyException(failedUserStorageException);
             }
-            catch (DuplicateKeyException)
+            catch (DuplicateKeyException duplicateKeyException)
             {
-                var failedUserServiceException =
-                    new FailedUserServiceException();
+                var alredyExistsUserException =
+                    new AlreadyExistsUserException(duplicateKeyException);
 
-                throw CreateAndLogDependencyException(failedUserServiceException);
+                throw CreateAndLogDependencyValidationException(alredyExistsUserException);
+            }
+            catch (InvalidColumnNameException invalidColumnNameException)
+            {
+                throw CreateAndLogDependencyValidationException(invalidColumnNameException);
+            }
+            catch (InvalidObjectNameException invalidObjectNameException)
+            {
+                throw CreateAndLogDependencyValidationException(invalidObjectNameException);
+            }
+            catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
+            {
+                var lockedUserException =
+                    new LockedUserException(dbUpdateConcurrencyException);
+
+                throw CreateAndLogDependencyException(lockedUserException);
+            }
+            catch (DbUpdateException dbUpdateException)
+            {
+                var failedUserStorageException =
+                    new FailedUserStorageException(dbUpdateException);
+
+                throw CreateAndLogDependencyException(dbUpdateException);
             }
             catch (Exception exception)
             {
@@ -105,6 +129,14 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
             return userServiceException;
         }
 
+        private UserDependencyValidationException CreateAndLogDependencyValidationException(Exception exception)
+        {
+            var userDependencyValidationException =
+                new UserDependencyValidationException(exception);
 
+            this.loggingBroker.LogError(userDependencyValidationException);
+
+            return userDependencyValidationException;
+        }
     }
 }
