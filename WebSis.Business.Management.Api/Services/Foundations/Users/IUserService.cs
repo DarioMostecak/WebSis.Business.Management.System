@@ -10,7 +10,7 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
 {
     public interface IUserService
     {
-        ValueTask<User> AddUser(User user, string password);
+        ValueTask<User> AddUserAsync(User user, string password);
         ValueTask<User> ModifyUserUser(User user);
         ValueTask<User> RemoveUserById(Guid id);
         ValueTask<User> RetrieveUserById(Guid id);

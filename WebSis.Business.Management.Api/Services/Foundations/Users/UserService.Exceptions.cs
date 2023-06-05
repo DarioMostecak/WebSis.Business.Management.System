@@ -44,13 +44,6 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
             {
                 throw CreateAndLogValidationException(notFoundUserException);
             }
-            catch (SqlException sqlException)
-            {
-                var failedUserStorageException =
-                    new FailedUserStorageException(sqlException);
-
-                throw CreateAndLogCriticalDependencyException(failedUserStorageException);
-            }
             catch (DuplicateKeyException duplicateKeyException)
             {
                 var alredyExistsUserException =
@@ -65,6 +58,13 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
             catch (InvalidObjectNameException invalidObjectNameException)
             {
                 throw CreateAndLogDependencyValidationException(invalidObjectNameException);
+            }
+            catch (SqlException sqlException)
+            {
+                var failedUserStorageException =
+                    new FailedUserStorageException(sqlException);
+
+                throw CreateAndLogCriticalDependencyException(failedUserStorageException);
             }
             catch (DbUpdateConcurrencyException dbUpdateConcurrencyException)
             {

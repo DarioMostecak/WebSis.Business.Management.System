@@ -12,5 +12,8 @@ namespace WebSis.Business.Management.Api.Models.Users
     {
         public bool IsActive { get; set; }
         public DateTime LastLogInDate { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime DateUpdated { get; set; }
     }
 }
+

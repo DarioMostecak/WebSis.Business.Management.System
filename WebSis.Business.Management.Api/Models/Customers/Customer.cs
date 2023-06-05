@@ -18,7 +18,6 @@
         public decimal AccountBalance { get; set; }
         public string PaymentTerms { get; set; }
         public bool TaxExempt { get; set; }
-        public bool IsActive { get; set; }
         public string CustomerNotes { get; set; }
     }
 }

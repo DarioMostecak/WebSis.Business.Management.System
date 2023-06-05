@@ -4,6 +4,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Microsoft.AspNetCore.Identity;
 using WebSis.Business.Management.Api.Brokers.Loggers;
 using WebSis.Business.Management.Api.Brokers.UserManagers;
 using WebSis.Business.Management.Api.Models.Users;
@@ -23,15 +24,18 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
             this.userManagerBroker = userMangerBroker;
         }
 
-        public ValueTask<User> AddUser(User user, string password) =>
+        public ValueTask<User> AddUserAsync(User user, string password) =>
         TryCatch(async () =>
         {
             //Validate user
             //Validate Password
 
-            //Create user
+            IdentityResult identityResult =
+                 await this.userManagerBroker.InsertUserAsync(user, password);
 
-            return new User();
+            //Validate identityResult
+
+            return user;
         });
 
 

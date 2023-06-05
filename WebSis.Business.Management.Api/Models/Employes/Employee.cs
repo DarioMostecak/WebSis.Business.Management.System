@@ -1,4 +1,4 @@
-﻿using WebSis.Business.Management.Api.Models.User;
+﻿using WebSis.Business.Management.Api.Models.Users;
 using WebSis.Business.Managmant.Api.Models.Warehouses;
 
 namespace WebSis.Business.Managmant.Api.Models.Employes
@@ -21,7 +21,6 @@ namespace WebSis.Business.Managmant.Api.Models.Employes
         public string Phone2 { get; set; } //Nullabe
         public string Email { get; set; }
         public string Note { get; set; }
-        public bool IsActive { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime DateHired { get; set; }
         public DateTime DateCreated { get; set; }
