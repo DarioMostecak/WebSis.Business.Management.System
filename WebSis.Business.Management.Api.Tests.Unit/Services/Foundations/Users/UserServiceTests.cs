@@ -44,7 +44,7 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
         private static DbUpdateConcurrencyException GetDbUpdateConcurrencyException() =>
             (DbUpdateConcurrencyException)FormatterServices.GetUninitializedObject(typeof(DbUpdateConcurrencyException));
 
-        private static DbUpdateException GetDbUpdateyException() =>
+        private static DbUpdateException GetDbUpdateException() =>
             (DbUpdateException)FormatterServices.GetUninitializedObject(typeof(DbUpdateException));
 
         private static Expression<Func<Exception, bool>> SameExceptionAs(Exception expectedException)

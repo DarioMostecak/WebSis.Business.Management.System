@@ -78,7 +78,7 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
                 var failedUserStorageException =
                     new FailedUserStorageException(dbUpdateException);
 
-                throw CreateAndLogDependencyException(dbUpdateException);
+                throw CreateAndLogDependencyException(failedUserStorageException);
             }
             catch (Exception exception)
             {

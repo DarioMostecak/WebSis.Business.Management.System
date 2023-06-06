@@ -97,7 +97,7 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnAddIfSqlExceptionOccuresAndLogItAsync()
+        public async Task ShouldThrowDependencyExceptionOnAddIfSqlExceptionOccurresAndLogItAsync()
         {
             //given
             User someUser = CreateUser();
@@ -136,7 +136,7 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
         }
 
         [Fact]
-        public async Task ShouldThrowDependencyExceptionOnAddIfDbUpdateConcurrencyExceptionAndLogItAsync()
+        public async Task ShouldThrowDependencyExceptionOnAddIfDbUpdateConcurrencyExceptionOccurresAndLogItAsync()
         {
             //given
             User someUser = CreateUser();
@@ -154,6 +154,45 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
             this.userManagerMock.Setup(manager =>
                 manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()))
                         .ThrowsAsync(dbUpdateConcurrencyException);
+
+            //when
+            ValueTask<User> addUserTask =
+                this.userService.AddUserAsync(someUser, somePassword);
+
+            //then
+            await Assert.ThrowsAsync<UserDependencyException>(() =>
+                addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedUserDependencyException))),
+                     Times.Once);
+
+            this.userManagerMock.Verify(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()),
+                 Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.userManagerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnAddIfDbUpdateExceptionOccurresAndLogItAsync()
+        {
+            //given
+            User someUser = CreateUser();
+            string somePassword = GetRandomPassword();
+            DbUpdateException dbUpdateException = GetDbUpdateException();
+
+            var failedUserStorageException =
+                new FailedUserStorageException(dbUpdateException);
+
+            var expectedUserDependencyException =
+                new UserDependencyException(failedUserStorageException);
+
+            this.userManagerMock.Setup(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()))
+                        .ThrowsAsync(dbUpdateException);
 
             //when
             ValueTask<User> addUserTask =
