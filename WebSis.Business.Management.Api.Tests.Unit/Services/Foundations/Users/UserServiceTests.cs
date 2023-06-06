@@ -4,9 +4,11 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Moq;
 using System;
 using System.Linq.Expressions;
+using System.Runtime.Serialization;
 using Tynamix.ObjectFiller;
 using WebSis.Business.Management.Api.Brokers.Loggers;
 using WebSis.Business.Management.Api.Brokers.UserManagers;
@@ -34,6 +36,9 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
         }
 
         private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
+
+        private static SqlException GetSqlException() =>
+            (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
 
         private static Expression<Func<Exception, bool>> SameExceptionAs(Exception expectedException)
         {

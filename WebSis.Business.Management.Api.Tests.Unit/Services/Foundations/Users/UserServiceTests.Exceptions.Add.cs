@@ -4,6 +4,7 @@
 // FREE TO USE AS LONG AS SOFTWARE FUNDS ARE DONATED TO THE POOR
 // ---------------------------------------------------------------
 
+using Microsoft.Data.SqlClient;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -84,6 +85,45 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogError(It.Is(SameExceptionAs(
                     expectedUserDependencyValidationException))),
+                     Times.Once);
+
+            this.userManagerMock.Verify(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()),
+                 Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.userManagerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnAddIfSqlExceptionOccuresAndLogItAsync()
+        {
+            //given
+            User someUser = CreateUser();
+            string somePassword = GetRandomPassword();
+            SqlException sqlException = GetSqlException();
+
+            var failedUserStorageException =
+                new FailedUserStorageException(sqlException);
+
+            var expectedUserDependencyException =
+                new UserDependencyException(failedUserStorageException);
+
+            this.userManagerMock.Setup(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()))
+                        .ThrowsAsync(sqlException);
+
+            //when
+            ValueTask<User> addUserTask =
+                this.userService.AddUserAsync(someUser, somePassword);
+
+            //then
+            await Assert.ThrowsAsync<UserDependencyException>(() =>
+                addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogCritical(It.Is(SameExceptionAs(
+                    expectedUserDependencyException))),
                      Times.Once);
 
             this.userManagerMock.Verify(manager =>
