@@ -27,8 +27,7 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
         public ValueTask<User> AddUserAsync(User user, string password) =>
         TryCatch(async () =>
         {
-            //Validate user
-            //Validate Password
+            ValidateUserAndPasswordOnCreate(user, password);
 
             IdentityResult identityResult =
                  await this.userManagerBroker.InsertUserAsync(user, password);

@@ -14,6 +14,7 @@ using Tynamix.ObjectFiller;
 using WebSis.Business.Management.Api.Brokers.Loggers;
 using WebSis.Business.Management.Api.Brokers.UserManagers;
 using WebSis.Business.Management.Api.Models.ExceptionModels;
+using WebSis.Business.Management.Api.Models.ExceptionsModels;
 using WebSis.Business.Management.Api.Models.Users;
 using WebSis.Business.Management.Api.Services.Foundations.Users;
 using Xunit;
@@ -36,7 +37,9 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
                 loggingBroker: loggingBrokerMock.Object);
         }
 
-        private static string GetRandomPassword() => new MnemonicString(1, 8, 20).GetValue();
+        private static string GetRandomPassword() => new MnemonicString(1, 8, 25).GetValue();
+
+        private static string GetValidPassword() => "I2kdj@kdjuksK8";
 
         private static SqlException GetSqlException() =>
             (SqlException)FormatterServices.GetUninitializedObject(typeof(SqlException));
@@ -52,6 +55,14 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
             return actualException =>
                 actualException.Message == expectedException.Message
                 && actualException.InnerException.Message == expectedException.InnerException.Message;
+        }
+
+        private static Expression<Func<Exception, bool>> SameValidationExceptionAs(Exception expectedException)
+        {
+            return actualException =>
+            actualException.Message == expectedException.Message
+            && (actualException.InnerException as ExceptionModel).DataEquals(expectedException.InnerException.Data);
+
         }
 
         public static TheoryData DependencyValidationExceptions()

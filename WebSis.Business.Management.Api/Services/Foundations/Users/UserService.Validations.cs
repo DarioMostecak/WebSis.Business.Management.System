@@ -20,7 +20,11 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
             Validate(
                 (Rule: IsInvalidX(user.Id), Parameter: nameof(User.Id)),
                 (Rule: IsInvalidX(user.UserName), Parameter: nameof(User.UserName)),
-                (Rule: IsInvalidX(user.Email), Parameter: nameof(User.Email))
+                (Rule: IsInvalidX(user.Email), Parameter: nameof(User.Email)),
+                (Rule: IsInvalidPassword(user.Email), Parameter: nameof(User.Email)),
+                (Rule: IsInvalidX(user.LastLogInDate), Parameter: nameof(User.LastLogInDate)),
+                (Rule: IsInvalidX(user.DateCreated), Parameter: nameof(User.DateCreated)),
+                (Rule: IsInvalidX(user.DateUpdated), Parameter: nameof(User.DateUpdated))
                 );
         }
 
