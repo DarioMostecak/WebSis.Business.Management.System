@@ -64,7 +64,10 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
             var newUser = new User
             {
                 Id = Guid.NewGuid(),
+                UserName = "Dario Mostecak",
                 Email = "travis@mail.com",
+                IsActive = true,
+                LastLogInDate = DateTime.UtcNow.AddDays(15),
                 DateCreated = DateTime.UtcNow,
                 DateUpdated = DateTime.UtcNow.AddDays(10),
             };
