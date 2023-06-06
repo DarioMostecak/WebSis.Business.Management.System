@@ -214,5 +214,44 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
             this.loggingBrokerMock.VerifyNoOtherCalls();
             this.userManagerMock.VerifyNoOtherCalls();
         }
+
+        [Fact]
+        public async Task ShouldThrowServiceExceptionOnaddIfExceptionOccuresAndLogItAsync()
+        {
+            //given
+            User someUser = CreateUser();
+            string somePassword = GetRandomPassword();
+            var exception = new Exception();
+
+            var failedUserServiceException =
+                new FailedUserServiceException(exception);
+
+            var expectedUserServiceException =
+                new UserServiceException(failedUserServiceException);
+
+            this.userManagerMock.Setup(manager =>
+               manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()))
+                       .ThrowsAsync(exception);
+
+            //when
+            ValueTask<User> addUserTask =
+                this.userService.AddUserAsync(someUser, somePassword);
+
+            //then
+            await Assert.ThrowsAsync<UserServiceException>(() =>
+                addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
+                    expectedUserServiceException))),
+                     Times.Once);
+
+            this.userManagerMock.Verify(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()),
+                 Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.userManagerMock.VerifyNoOtherCalls();
+        }
     }
 }
