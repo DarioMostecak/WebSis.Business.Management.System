@@ -5,6 +5,7 @@
 // ---------------------------------------------------------------
 
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -123,6 +124,47 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
 
             this.loggingBrokerMock.Verify(broker =>
                 broker.LogCritical(It.Is(SameExceptionAs(
+                    expectedUserDependencyException))),
+                     Times.Once);
+
+            this.userManagerMock.Verify(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()),
+                 Times.Once);
+
+            this.loggingBrokerMock.VerifyNoOtherCalls();
+            this.userManagerMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public async Task ShouldThrowDependencyExceptionOnAddIfDbUpdateConcurrencyExceptionAndLogItAsync()
+        {
+            //given
+            User someUser = CreateUser();
+            string somePassword = GetRandomPassword();
+
+            DbUpdateConcurrencyException dbUpdateConcurrencyException =
+                GetDbUpdateConcurrencyException();
+
+            var lockedUserException =
+                new LockedUserException(dbUpdateConcurrencyException);
+
+            var expectedUserDependencyException =
+                new UserDependencyException(lockedUserException);
+
+            this.userManagerMock.Setup(manager =>
+                manager.InsertUserAsync(It.IsAny<User>(), It.IsAny<string>()))
+                        .ThrowsAsync(dbUpdateConcurrencyException);
+
+            //when
+            ValueTask<User> addUserTask =
+                this.userService.AddUserAsync(someUser, somePassword);
+
+            //then
+            await Assert.ThrowsAsync<UserDependencyException>(() =>
+                addUserTask.AsTask());
+
+            this.loggingBrokerMock.Verify(broker =>
+                broker.LogError(It.Is(SameExceptionAs(
                     expectedUserDependencyException))),
                      Times.Once);
 
