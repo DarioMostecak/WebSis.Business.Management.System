@@ -216,7 +216,7 @@ namespace WebSis.Business.Management.Api.Tests.Unit.Services.Foundations.Users
         }
 
         [Fact]
-        public async Task ShouldThrowServiceExceptionOnaddIfExceptionOccuresAndLogItAsync()
+        public async Task ShouldThrowServiceExceptionOnAddIfExceptionOccuresAndLogItAsync()
         {
             //given
             User someUser = CreateUser();

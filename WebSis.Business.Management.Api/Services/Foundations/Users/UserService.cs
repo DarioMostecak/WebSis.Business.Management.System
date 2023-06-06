@@ -34,7 +34,6 @@ namespace WebSis.Business.Management.Api.Services.Foundations.Users
                  await this.userManagerBroker.InsertUserAsync(user, password);
 
             //Validate identityResult
-
             return user;
         });
 
